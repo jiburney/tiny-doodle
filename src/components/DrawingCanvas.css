@@ -1,0 +1,152 @@
+.drawing-canvas-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+  overflow: hidden;
+  min-height: 0;
+  position: relative;
+}
+
+.drawing-canvas {
+  flex: 1;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.floating-controls-top,
+.floating-controls-bottom {
+  position: absolute;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.floating-controls-top {
+  top: 20px;
+}
+
+.floating-controls-bottom {
+  bottom: 20px;
+}
+
+.floating-controls-top .canvas-button,
+.floating-controls-bottom .canvas-button {
+  pointer-events: auto;
+}
+
+.canvas-button {
+  font-size: 28px;
+  padding: 8px;
+  border: 3px solid;
+  border-radius: 50%;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+  min-width: 54px;
+  min-height: 54px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.canvas-button:active:not(:disabled) {
+  transform: scale(0.95);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.canvas-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.undo-button {
+  border-color: #FF9800;
+  color: #FF9800;
+}
+
+.redo-button {
+  border-color: #2196F3;
+  color: #2196F3;
+}
+
+.clear-button {
+  border-color: #F44336;
+  color: #F44336;
+}
+
+.save-button {
+  border-color: #4CAF50;
+  color: #4CAF50;
+  font-size: 20px;
+}
+
+@media (max-width: 600px) {
+  .drawing-canvas-container {
+    padding: 6px;
+    padding-bottom: 6px;
+  }
+
+  .drawing-canvas {
+    border-radius: 8px;
+    min-height: 0;
+  }
+
+  .canvas-button {
+    font-size: 24px;
+    padding: 6px;
+    min-width: 48px;
+    min-height: 48px;
+  }
+
+  .floating-controls-top,
+  .floating-controls-bottom {
+    right: 12px;
+    gap: 6px;
+  }
+
+  .floating-controls-top {
+    top: 16px;
+  }
+
+  .floating-controls-bottom {
+    bottom: 16px;
+  }
+}
+
+@media (orientation: landscape) {
+  .drawing-canvas-container {
+    padding: 6px;
+  }
+
+  .canvas-button {
+    font-size: 22px;
+    padding: 6px;
+    min-width: 46px;
+    min-height: 46px;
+  }
+
+  .floating-controls-top,
+  .floating-controls-bottom {
+    right: 10px;
+    gap: 6px;
+  }
+
+  .floating-controls-top {
+    top: 14px;
+  }
+
+  .floating-controls-bottom {
+    bottom: 14px;
+  }
+}

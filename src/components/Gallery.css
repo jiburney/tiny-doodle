@@ -1,0 +1,265 @@
+.gallery {
+  width: 100vw;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #F5F5F5 0%, #E8E8E8 100%);
+  overflow: hidden;
+}
+
+.gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  padding-top: max(12px, calc(env(safe-area-inset-top) + 12px));
+  background: linear-gradient(135deg, #FF6B6B 0%, #4D96FF 50%, #6BCF7F 100%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.gallery-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-logo {
+  max-height: 70px;
+  height: auto;
+  object-fit: contain;
+}
+
+.back-button {
+  font-size: 18px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+  min-width: 100px;
+  min-height: 60px;
+}
+
+.back-button:active {
+  transform: scale(0.95);
+}
+
+.drawing-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.5);
+  flex-shrink: 0;
+}
+
+.share-button,
+.delete-button {
+  font-size: 18px;
+  padding: 14px 24px;
+  background: white;
+  border: 3px solid;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+  min-width: 140px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.share-button {
+  border-color: #2196F3;
+  color: #2196F3;
+}
+
+.delete-button {
+  border-color: #F44336;
+  color: #F44336;
+}
+
+.share-button:active,
+.delete-button:active {
+  transform: scale(0.95);
+}
+
+.gallery-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.empty-gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: 20px;
+}
+
+.empty-message {
+  font-size: 32px;
+  font-weight: bold;
+  color: #999;
+  margin-bottom: 12px;
+}
+
+.empty-hint {
+  font-size: 20px;
+  color: #BBB;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.gallery-item {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.gallery-item:active {
+  transform: scale(0.95);
+}
+
+.gallery-thumbnail {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-item-date {
+  padding: 8px;
+  background: #F5F5F5;
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  font-weight: 600;
+}
+
+.drawing-viewer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow: auto;
+}
+
+.full-drawing {
+  max-width: 100%;
+  max-height: 70vh;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  background: white;
+}
+
+.drawing-info {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 16px;
+  color: #666;
+}
+
+@media (max-width: 600px) {
+  .gallery-title {
+    font-size: 22px;
+  }
+
+  .gallery-logo {
+    max-height: 55px;
+  }
+
+  .back-button {
+    font-size: 16px;
+    padding: 10px 16px;
+    min-width: 80px;
+    min-height: 50px;
+  }
+
+  .drawing-actions {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .share-button,
+  .delete-button {
+    font-size: 16px;
+    padding: 12px 16px;
+    min-width: 120px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+  }
+
+  .empty-message {
+    font-size: 24px;
+  }
+
+  .empty-hint {
+    font-size: 16px;
+  }
+}
+
+@media (orientation: landscape) {
+  .gallery-header {
+    padding: 8px 12px;
+    padding-top: max(8px, calc(env(safe-area-inset-top) + 8px));
+  }
+
+  .gallery-title {
+    font-size: 20px;
+  }
+
+  .gallery-logo {
+    max-height: 50px;
+  }
+
+  .back-button {
+    font-size: 16px;
+    padding: 8px 14px;
+    min-width: 80px;
+    min-height: 45px;
+  }
+
+  .drawing-actions {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .share-button,
+  .delete-button {
+    font-size: 15px;
+    padding: 10px 18px;
+    min-width: 120px;
+  }
+
+  .full-drawing {
+    max-height: 60vh;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+}

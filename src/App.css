@@ -1,0 +1,208 @@
+.app {
+  width: 100vw;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #F5F5F5 0%, #E8E8E8 100%);
+  overflow: hidden;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  padding-top: max(12px, calc(env(safe-area-inset-top) + 12px));
+  background: linear-gradient(135deg, #FF6B6B 0%, #4D96FF 50%, #6BCF7F 100%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.app-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  letter-spacing: 1px;
+}
+
+.app-logo {
+  max-height: 70px;
+  height: auto;
+  object-fit: contain;
+}
+
+.lock-button,
+.gallery-button {
+  font-size: 18px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+  min-width: 60px;
+  min-height: 60px;
+}
+
+.lock-button {
+  min-width: 50px;
+}
+
+.lock-button:active,
+.gallery-button:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.top-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.unlock-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.unlock-dialog {
+  background: white;
+  padding: 32px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  max-width: 400px;
+  margin: 20px;
+}
+
+.unlock-dialog h2 {
+  margin: 0 0 16px 0;
+  color: #333;
+  font-size: 24px;
+}
+
+.unlock-dialog p {
+  margin: 0 0 24px 0;
+  color: #666;
+  font-size: 16px;
+}
+
+.unlock-confirm-button,
+.unlock-cancel-button {
+  padding: 12px 24px;
+  margin: 8px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+}
+
+.unlock-confirm-button {
+  background: #4B5563;
+  color: white;
+  border: none;
+}
+
+.unlock-cancel-button {
+  background: white;
+  color: #4B5563;
+  border: 2px solid #4B5563;
+}
+
+.unlock-confirm-button:active,
+.unlock-cancel-button:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 600px) {
+  .app-title {
+    font-size: 20px;
+  }
+
+  .app-logo {
+    max-height: 55px;
+  }
+
+  .lock-button,
+  .gallery-button {
+    font-size: 18px;
+    padding: 8px 12px;
+    min-width: 50px;
+    min-height: 50px;
+  }
+
+  .top-controls {
+    padding: 6px 8px;
+    gap: 6px;
+  }
+
+  .unlock-dialog {
+    padding: 24px;
+    margin: 16px;
+  }
+
+  .unlock-dialog h2 {
+    font-size: 20px;
+  }
+
+  .unlock-confirm-button,
+  .unlock-cancel-button {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+  }
+}
+
+@media (orientation: landscape) {
+  .app-header {
+    padding: 8px 12px;
+    padding-top: max(8px, calc(env(safe-area-inset-top) + 8px));
+  }
+
+  .app-title {
+    font-size: 20px;
+  }
+
+  .app-logo {
+    max-height: 50px;
+  }
+
+  .lock-button,
+  .gallery-button {
+    font-size: 16px;
+    padding: 6px 12px;
+    min-width: 50px;
+    min-height: 45px;
+  }
+
+  .top-controls {
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 6px 12px;
+    gap: 12px;
+  }
+}

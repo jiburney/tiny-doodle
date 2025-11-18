@@ -1,0 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  background: linear-gradient(135deg, #FF6B6B 0%, #4D96FF 50%, #6BCF7F 100%);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Prevent pull-to-refresh and other iOS gestures */
+body {
+  overscroll-behavior: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
