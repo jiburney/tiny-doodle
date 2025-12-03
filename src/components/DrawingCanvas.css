@@ -43,16 +43,16 @@
 }
 
 .canvas-button {
-  font-size: 28px;
-  padding: 8px;
+  font-size: 32px;
+  padding: 12px;
   border: 3px solid;
   border-radius: 50%;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: all 0.2s;
-  min-width: 54px;
-  min-height: 54px;
+  min-width: 64px;
+  min-height: 64px;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(4px);
   display: flex;
@@ -88,7 +88,11 @@
 .save-button {
   border-color: #4CAF50;
   color: #4CAF50;
-  font-size: 20px;
+}
+
+.share-button {
+  border-color: #9C27B0;
+  color: #9C27B0;
 }
 
 @media (max-width: 600px) {
@@ -103,10 +107,10 @@
   }
 
   .canvas-button {
-    font-size: 24px;
-    padding: 6px;
-    min-width: 48px;
-    min-height: 48px;
+    font-size: 28px;
+    padding: 10px;
+    min-width: 56px;
+    min-height: 56px;
   }
 
   .floating-controls-top,
@@ -130,10 +134,10 @@
   }
 
   .canvas-button {
-    font-size: 22px;
-    padding: 6px;
-    min-width: 46px;
-    min-height: 46px;
+    font-size: 26px;
+    padding: 9px;
+    min-width: 54px;
+    min-height: 54px;
   }
 
   .floating-controls-top,

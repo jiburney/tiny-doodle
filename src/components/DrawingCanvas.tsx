@@ -178,6 +178,47 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
     alert('Drawing saved to gallery! 🎉')
   }
 
+  const handleShare = async () => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    try {
+      // Convert canvas to blob
+      canvas.toBlob(async (blob) => {
+        if (!blob) return
+
+        const fileName = `tiny-doodle-${new Date().toISOString().split('T')[0]}.png`
+        const file = new File([blob], fileName, { type: 'image/png' })
+
+        // Check if Web Share API is supported and can share files
+        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: 'Tiny Doodle Drawing',
+            text: 'Check out this drawing from Tiny Doodle!'
+          })
+        } else {
+          // Fallback: download the file
+          const url = URL.createObjectURL(blob)
+          const link = document.createElement('a')
+          link.href = url
+          link.download = fileName
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+          URL.revokeObjectURL(url)
+          alert('Drawing downloaded!')
+        }
+      }, 'image/png')
+    } catch (error) {
+      // User cancelled share or other error
+      if (error instanceof Error && error.name !== 'AbortError') {
+        console.error('Error sharing:', error)
+        alert('Could not share the drawing. Please try again.')
+      }
+    }
+  }
+
   return (
     <div className="drawing-canvas-container">
       <canvas
@@ -212,7 +253,7 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
         </button>
       </div>
 
-      {/* Bottom-right corner: Clear/Save */}
+      {/* Bottom-right corner: Clear/Save/Share */}
       <div className="floating-controls-bottom">
         <button
           className="canvas-button clear-button"
@@ -226,7 +267,25 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
           onClick={handleSave}
           aria-label="Save drawing"
         >
-          💾
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+          </svg>
+        </button>
+        <button
+          className="canvas-button share-button"
+          onClick={handleShare}
+          aria-label="Share drawing"
+        >
+          ↗
         </button>
       </div>
     </div>
