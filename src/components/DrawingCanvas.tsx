@@ -20,6 +20,8 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null)
   const [history, setHistory] = useState<ImageData[]>([])
   const [historyStep, setHistoryStep] = useState(-1)
+  const [showTray, setShowTray] = useState(true)
+  const trayTimeoutRef = useRef<number | null>(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -98,6 +100,21 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
     }
   }
 
+  const resetTrayTimeout = () => {
+    // Clear existing timeout
+    if (trayTimeoutRef.current) {
+      window.clearTimeout(trayTimeoutRef.current)
+    }
+
+    // Show tray
+    setShowTray(true)
+
+    // Set new timeout to hide after 3 seconds
+    trayTimeoutRef.current = window.setTimeout(() => {
+      setShowTray(false)
+    }, 3000)
+  }
+
   const startDrawing = (e: React.TouchEvent | React.MouseEvent) => {
     e.preventDefault()
     if (!context) return
@@ -111,6 +128,12 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
     context.lineJoin = 'round'
     context.strokeStyle = color
     context.lineWidth = brushSize
+
+    // Hide tray while drawing
+    if (trayTimeoutRef.current) {
+      window.clearTimeout(trayTimeoutRef.current)
+    }
+    setShowTray(false)
   }
 
   const draw = (e: React.TouchEvent | React.MouseEvent) => {
@@ -135,7 +158,26 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
     if (canvas) {
       onCanvasChange(canvas.toDataURL('image/png'))
     }
+
+    // Show tray after drawing stops
+    resetTrayTimeout()
   }
+
+  // Show tray on any interaction with canvas
+  const handleCanvasInteraction = () => {
+    if (!isDrawing) {
+      resetTrayTimeout()
+    }
+  }
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (trayTimeoutRef.current) {
+        window.clearTimeout(trayTimeoutRef.current)
+      }
+    }
+  }, [])
 
   const handleClear = () => {
     if (!context || !canvasRef.current) return
@@ -221,28 +263,6 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
 
   return (
     <div className="drawing-canvas-container">
-      {/* Undo/Redo controls at top of palette */}
-      <div className="undo-redo-controls">
-        <button
-          className="canvas-button undo-button"
-          onClick={handleUndo}
-          disabled={historyStep <= 0}
-          aria-label="Undo"
-        >
-          <span className="button-icon">↶</span>
-          <span className="button-label">Undo</span>
-        </button>
-        <button
-          className="canvas-button redo-button"
-          onClick={handleRedo}
-          disabled={historyStep >= history.length - 1}
-          aria-label="Redo"
-        >
-          <span className="button-icon">↷</span>
-          <span className="button-label">Redo</span>
-        </button>
-      </div>
-
       <canvas
         ref={canvasRef}
         className="drawing-canvas"
@@ -253,10 +273,43 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
         onTouchStart={startDrawing}
         onTouchMove={draw}
         onTouchEnd={stopDrawing}
+        onClick={handleCanvasInteraction}
       />
 
-      {/* Bottom action tray: Clear/Save/Share */}
-      <div className="action-tray">
+      {/* Floating Undo/Redo controls */}
+      <div className="floating-undo-redo">
+        <button
+          className="floating-button undo-button"
+          onClick={handleUndo}
+          disabled={historyStep <= 0}
+          aria-label="Undo"
+        >
+          <span className="button-icon">↶</span>
+        </button>
+        <button
+          className="floating-button redo-button"
+          onClick={handleRedo}
+          disabled={historyStep >= history.length - 1}
+          aria-label="Redo"
+        >
+          <span className="button-icon">↷</span>
+        </button>
+      </div>
+
+      {/* Bottom action tray: Clear/Save/Share - auto-hides */}
+      <div className={`action-tray ${showTray ? 'visible' : 'hidden'}`}
+           onMouseEnter={() => {
+             if (trayTimeoutRef.current) {
+               window.clearTimeout(trayTimeoutRef.current)
+             }
+             setShowTray(true)
+           }}
+           onMouseLeave={resetTrayTimeout}
+           onTouchStart={() => {
+             if (!showTray) {
+               resetTrayTimeout()
+             }
+           }}>
         <button
           className="tray-button clear-button"
           onClick={handleClear}

@@ -2,11 +2,10 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 0 12px 0 12px;
+  padding: 12px;
   overflow: hidden;
   min-height: 0;
   position: relative;
-  gap: 8px;
 }
 
 .drawing-canvas {
@@ -19,54 +18,52 @@
   min-height: 0;
 }
 
-/* Undo/Redo controls at the top */
-.undo-redo-controls {
+/* Floating Undo/Redo controls */
+.floating-undo-redo {
+  position: absolute;
+  right: 20px;
+  top: 20px;
   display: flex;
-  gap: 8px;
-  padding: 8px 0;
-  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 10;
+  pointer-events: none;
 }
 
-.canvas-button {
-  font-size: 18px;
-  padding: 10px 16px;
-  border: 2px solid;
-  border-radius: 12px;
+.floating-undo-redo .floating-button {
+  pointer-events: auto;
+}
+
+.floating-button {
+  width: 54px;
+  height: 54px;
+  font-size: 28px;
+  padding: 0;
+  border: 3px solid;
+  border-radius: 50%;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: all 0.2s;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(4px);
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  min-width: 70px;
-}
-
-.canvas-button .button-icon {
-  font-size: 20px;
-  line-height: 1;
-  display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.canvas-button .button-label {
-  font-size: 12px;
-  font-weight: 600;
+.floating-button .button-icon {
+  font-size: 26px;
   line-height: 1;
 }
 
-.canvas-button:active:not(:disabled) {
+.floating-button:active:not(:disabled) {
   transform: scale(0.95);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.canvas-button:disabled {
-  opacity: 0.4;
+.floating-button:disabled {
+  opacity: 0.3;
   cursor: not-allowed;
 }
 
@@ -80,16 +77,33 @@
   color: #2196F3;
 }
 
-/* Bottom action tray */
+/* Bottom action tray with auto-hide */
 .action-tray {
+  position: absolute;
+  bottom: 0;
+  left: 12px;
+  right: 12px;
   display: flex;
   gap: 8px;
   padding: 8px;
   padding-bottom: max(8px, env(safe-area-inset-bottom));
   background: rgba(255, 255, 255, 0.95);
-  border-radius: 16px;
+  border-radius: 16px 16px 0 0;
   box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.1);
   justify-content: space-around;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  z-index: 20;
+}
+
+.action-tray.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.action-tray.hidden {
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
 }
 
 .tray-button {
@@ -151,38 +165,37 @@
 
 @media (max-width: 600px) {
   .drawing-canvas-container {
-    padding: 0 6px 0 6px;
-    gap: 6px;
+    padding: 6px;
   }
 
   .drawing-canvas {
     border-radius: 8px;
   }
 
-  .undo-redo-controls {
-    padding: 6px 0;
-    gap: 6px;
+  .floating-undo-redo {
+    right: 12px;
+    top: 12px;
+    gap: 8px;
   }
 
-  .canvas-button {
-    font-size: 16px;
-    padding: 8px 12px;
-    min-width: 65px;
+  .floating-button {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+    border-width: 2px;
   }
 
-  .canvas-button .button-icon {
-    font-size: 18px;
-  }
-
-  .canvas-button .button-label {
-    font-size: 11px;
+  .floating-button .button-icon {
+    font-size: 22px;
   }
 
   .action-tray {
+    left: 6px;
+    right: 6px;
     gap: 6px;
     padding: 6px;
     padding-bottom: max(6px, env(safe-area-inset-bottom));
-    border-radius: 12px;
+    border-radius: 12px 12px 0 0;
   }
 
   .tray-button {
@@ -202,34 +215,32 @@
 
 @media (orientation: landscape) {
   .drawing-canvas-container {
-    padding: 0 6px 0 6px;
-    gap: 6px;
+    padding: 6px;
   }
 
-  .undo-redo-controls {
-    padding: 4px 0;
-    gap: 6px;
+  .floating-undo-redo {
+    right: 16px;
+    top: 16px;
+    gap: 8px;
   }
 
-  .canvas-button {
-    font-size: 16px;
-    padding: 6px 12px;
-    min-width: 65px;
+  .floating-button {
+    width: 50px;
+    height: 50px;
+    font-size: 26px;
   }
 
-  .canvas-button .button-icon {
-    font-size: 16px;
-  }
-
-  .canvas-button .button-label {
-    font-size: 10px;
+  .floating-button .button-icon {
+    font-size: 24px;
   }
 
   .action-tray {
+    left: 6px;
+    right: 6px;
     gap: 6px;
     padding: 6px;
     padding-bottom: max(6px, env(safe-area-inset-bottom));
-    border-radius: 12px;
+    border-radius: 12px 12px 0 0;
   }
 
   .tray-button {
