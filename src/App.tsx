@@ -3,6 +3,7 @@ import DrawingCanvas from './components/DrawingCanvas'
 import ColorPicker from './components/ColorPicker'
 import BrushSizePicker from './components/BrushSizePicker'
 import Gallery from './components/Gallery'
+import WelcomeScreen from './components/WelcomeScreen'
 import { trackDrawingSaved, trackGalleryOpened } from './utils/analytics'
 import './App.css'
 
@@ -16,6 +17,7 @@ function App() {
   const [currentColor, setCurrentColor] = useState('#FF6B6B')
   const [brushSize, setBrushSize] = useState(2)
   const [showGallery, setShowGallery] = useState(false)
+  const [showWelcome, setShowWelcome] = useState(false)
   const [drawings, setDrawings] = useState<Drawing[]>([])
   const [currentCanvas, setCurrentCanvas] = useState<string | null>(null)
 
@@ -28,6 +30,12 @@ function App() {
       } catch (e) {
         console.error('Failed to load drawings:', e)
       }
+    }
+
+    // Check if we should show the welcome screen
+    const hideWelcome = localStorage.getItem('tiny-doodle-hide-welcome')
+    if (!hideWelcome) {
+      setShowWelcome(true)
     }
   }, [])
 
@@ -64,44 +72,57 @@ function App() {
   }
 
   return (
-    <div className="app">
-      <header className="app-header">
-        <img
-          src="/tiny-doodle-logo-full.png"
-          alt="Tiny Doodle"
-          className="app-logo"
-        />
-        <button
-          className="gallery-button"
-          onClick={() => {
-            trackGalleryOpened(drawings.length)
-            setShowGallery(true)
-          }}
-          aria-label="Open gallery"
-        >
-          📁 ({drawings.length})
-        </button>
-      </header>
+    <>
+      <div className="app" style={showWelcome ? { pointerEvents: 'none' } : undefined}>
+        <header className="app-header">
+          <img
+            src="/tiny-doodle-logo-full.png"
+            alt="Tiny Doodle"
+            className="app-logo"
+          />
+          <div className="header-buttons">
+            <button
+              className="help-button"
+              onClick={() => setShowWelcome(true)}
+              aria-label="Help"
+            >
+              ?
+            </button>
+            <button
+              className="gallery-button"
+              onClick={() => {
+                trackGalleryOpened(drawings.length)
+                setShowGallery(true)
+              }}
+              aria-label="Open gallery"
+            >
+              📁 ({drawings.length})
+            </button>
+          </div>
+        </header>
 
-      <div className="top-controls">
-        <ColorPicker
-          currentColor={currentColor}
-          onColorChange={setCurrentColor}
-        />
-        <BrushSizePicker
-          currentSize={brushSize}
-          onSizeChange={setBrushSize}
+        <div className="top-controls">
+          <ColorPicker
+            currentColor={currentColor}
+            onColorChange={setCurrentColor}
+          />
+          <BrushSizePicker
+            currentSize={brushSize}
+            onSizeChange={setBrushSize}
+          />
+        </div>
+
+        <DrawingCanvas
+          color={currentColor}
+          brushSize={brushSize}
+          onSave={handleSaveDrawing}
+          initialCanvas={currentCanvas}
+          onCanvasChange={setCurrentCanvas}
         />
       </div>
 
-      <DrawingCanvas
-        color={currentColor}
-        brushSize={brushSize}
-        onSave={handleSaveDrawing}
-        initialCanvas={currentCanvas}
-        onCanvasChange={setCurrentCanvas}
-      />
-    </div>
+      {showWelcome && <WelcomeScreen onClose={() => setShowWelcome(false)} />}
+    </>
   )
 }
 

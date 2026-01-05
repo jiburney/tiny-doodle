@@ -1,0 +1,258 @@
+.welcome-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.welcome-dialog {
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease-out;
+  will-change: transform;
+  -webkit-overflow-scrolling: touch;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.welcome-header {
+  background: linear-gradient(135deg, #FF6B6B 0%, #4D96FF 50%, #6BCF7F 100%);
+  padding: 32px 24px;
+  text-align: center;
+  border-radius: 24px 24px 0 0;
+}
+
+.welcome-logo {
+  max-width: 250px;
+  width: 100%;
+  height: auto;
+}
+
+.welcome-content {
+  padding: 32px 24px;
+}
+
+.welcome-title {
+  margin: 0 0 16px 0;
+  color: #333;
+  font-size: 32px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.welcome-description {
+  margin: 0 0 32px 0;
+  color: #666;
+  font-size: 18px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.tutorial-section {
+  margin-bottom: 32px;
+}
+
+.tutorial-section h2 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.tutorial-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: #F8F9FA;
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+
+.tutorial-item:hover {
+  background: #E9ECEF;
+}
+
+.tutorial-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tutorial-icon.color-icon {
+  background: linear-gradient(135deg, #FF6B6B 0%, #4D96FF 50%, #6BCF7F 100%);
+  padding: 4px;
+}
+
+.color-sample {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 3px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.tutorial-icon.brush-icon {
+  background: white;
+}
+
+.brush-sample {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #333;
+}
+
+.tutorial-text {
+  flex: 1;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.tutorial-text strong {
+  color: #000;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.welcome-checkbox {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.welcome-checkbox label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #555;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.welcome-checkbox label:hover {
+  background: #F8F9FA;
+}
+
+.welcome-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #4D96FF;
+}
+
+.welcome-cta-button {
+  width: 100%;
+  padding: 18px 32px;
+  background: linear-gradient(135deg, #FF6B6B 0%, #4D96FF 50%, #6BCF7F 100%);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(77, 150, 255, 0.4);
+  transition: all 0.2s;
+}
+
+.welcome-cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(77, 150, 255, 0.5);
+}
+
+.welcome-cta-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(77, 150, 255, 0.3);
+}
+
+@media (max-width: 600px) {
+  .welcome-dialog {
+    max-height: 95vh;
+    border-radius: 20px;
+  }
+
+  .welcome-header {
+    padding: 24px 16px;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .welcome-logo {
+    max-width: 200px;
+  }
+
+  .welcome-content {
+    padding: 24px 16px;
+  }
+
+  .welcome-title {
+    font-size: 26px;
+  }
+
+  .welcome-description {
+    font-size: 16px;
+    margin-bottom: 24px;
+  }
+
+  .tutorial-section h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  .tutorial-item {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  .tutorial-icon {
+    font-size: 28px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .tutorial-text {
+    font-size: 15px;
+  }
+
+  .welcome-checkbox label {
+    font-size: 15px;
+  }
+
+  .welcome-cta-button {
+    font-size: 18px;
+    padding: 16px 24px;
+  }
+}

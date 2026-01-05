@@ -38,6 +38,7 @@
   object-fit: contain;
 }
 
+.help-button,
 .lock-button,
 .gallery-button {
   font-size: 18px;
@@ -54,10 +55,13 @@
   min-height: 60px;
 }
 
+.help-button,
 .lock-button {
   min-width: 50px;
+  font-size: 22px;
 }
 
+.help-button:active,
 .lock-button:active,
 .gallery-button:active {
   transform: scale(0.95);
@@ -147,12 +151,18 @@
     max-height: 55px;
   }
 
+  .help-button,
   .lock-button,
   .gallery-button {
     font-size: 18px;
     padding: 8px 12px;
     min-width: 50px;
     min-height: 50px;
+  }
+
+  .help-button,
+  .lock-button {
+    font-size: 20px;
   }
 
   .top-controls {
@@ -191,12 +201,18 @@
     max-height: 50px;
   }
 
+  .help-button,
   .lock-button,
   .gallery-button {
     font-size: 16px;
     padding: 6px 12px;
     min-width: 50px;
     min-height: 45px;
+  }
+
+  .help-button,
+  .lock-button {
+    font-size: 18px;
   }
 
   .top-controls {

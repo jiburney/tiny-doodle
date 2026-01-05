@@ -221,6 +221,28 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
 
   return (
     <div className="drawing-canvas-container">
+      {/* Undo/Redo controls at top of palette */}
+      <div className="undo-redo-controls">
+        <button
+          className="canvas-button undo-button"
+          onClick={handleUndo}
+          disabled={historyStep <= 0}
+          aria-label="Undo"
+        >
+          <span className="button-icon">↶</span>
+          <span className="button-label">Undo</span>
+        </button>
+        <button
+          className="canvas-button redo-button"
+          onClick={handleRedo}
+          disabled={historyStep >= history.length - 1}
+          aria-label="Redo"
+        >
+          <span className="button-icon">↷</span>
+          <span className="button-label">Redo</span>
+        </button>
+      </div>
+
       <canvas
         ref={canvasRef}
         className="drawing-canvas"
@@ -233,41 +255,23 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
         onTouchEnd={stopDrawing}
       />
 
-      {/* Top-right corner: Undo/Redo */}
-      <div className="floating-controls-top">
+      {/* Bottom action tray: Clear/Save/Share */}
+      <div className="action-tray">
         <button
-          className="canvas-button undo-button"
-          onClick={handleUndo}
-          disabled={historyStep <= 0}
-          aria-label="Undo"
-        >
-          ↶
-        </button>
-        <button
-          className="canvas-button redo-button"
-          onClick={handleRedo}
-          disabled={historyStep >= history.length - 1}
-          aria-label="Redo"
-        >
-          ↷
-        </button>
-      </div>
-
-      {/* Bottom-right corner: Clear/Save/Share */}
-      <div className="floating-controls-bottom">
-        <button
-          className="canvas-button clear-button"
+          className="tray-button clear-button"
           onClick={handleClear}
           aria-label="Clear canvas"
         >
-          ✕
+          <span className="button-icon">✕</span>
+          <span className="button-label">Clear</span>
         </button>
         <button
-          className="canvas-button save-button"
+          className="tray-button save-button"
           onClick={handleSave}
           aria-label="Save drawing"
         >
           <svg
+            className="button-icon"
             width="24"
             height="24"
             viewBox="0 0 24 24"
@@ -279,13 +283,15 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
           >
             <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
           </svg>
+          <span className="button-label">Save</span>
         </button>
         <button
-          className="canvas-button share-button"
+          className="tray-button share-button"
           onClick={handleShare}
           aria-label="Share drawing"
         >
-          ↗
+          <span className="button-icon">↗</span>
+          <span className="button-label">Share</span>
         </button>
       </div>
     </div>
