@@ -38,10 +38,7 @@ A simple and fun doodling app designed for children, optimized for touch devices
 
 ### Development Setup
 
-1. **Clone or navigate to the project**
-   ```bash
-   cd /Users/jamesburney/projects/tiny-doodle
-   ```
+1. **Clone the project**
 
 2. **Install dependencies**
    ```bash
