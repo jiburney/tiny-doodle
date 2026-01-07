@@ -4,7 +4,6 @@ import ColorPicker from './components/ColorPicker'
 import BrushSizePicker from './components/BrushSizePicker'
 import Gallery from './components/Gallery'
 import WelcomeScreen from './components/WelcomeScreen'
-import { trackDrawingSaved, trackGalleryOpened } from './utils/analytics'
 import './App.css'
 
 export type Drawing = {
@@ -50,9 +49,6 @@ function App() {
 
     // Save to localStorage
     localStorage.setItem('tiny-doodle-drawings', JSON.stringify(updatedDrawings))
-
-    // Track the save event
-    trackDrawingSaved()
   }
 
   const handleDeleteDrawing = (id: string) => {
@@ -90,10 +86,7 @@ function App() {
             </button>
             <button
               className="gallery-button"
-              onClick={() => {
-                trackGalleryOpened(drawings.length)
-                setShowGallery(true)
-              }}
+              onClick={() => setShowGallery(true)}
               aria-label="Open gallery"
             >
               📁 ({drawings.length})

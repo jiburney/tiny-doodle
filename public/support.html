@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support & Contact - Tiny Doodle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #FF6B6B 0%, #4D96FF 50%, #6BCF7F 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #f0f0f0;
+        }
+
+        h1 {
+            color: #4D96FF;
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 18px;
+        }
+
+        h2 {
+            color: #FF6B6B;
+            font-size: 24px;
+            font-weight: 700;
+            margin: 30px 0 15px 0;
+        }
+
+        h3 {
+            color: #4D96FF;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 20px 0 10px 0;
+        }
+
+        p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        ul {
+            margin: 15px 0 15px 30px;
+            line-height: 1.8;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .contact-box {
+            background: linear-gradient(135deg, #FF6B6B 0%, #4D96FF 50%, #6BCF7F 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .contact-box h2 {
+            color: white;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .contact-method {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .contact-method:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact-method strong {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .contact-method a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 20px;
+            transition: opacity 0.2s;
+        }
+
+        .contact-method a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        .faq-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4D96FF;
+        }
+
+        .faq-question {
+            color: #4D96FF;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .faq-answer {
+            color: #555;
+        }
+
+        .troubleshooting-step {
+            background: #fff3cd;
+            border-left: 4px solid #FF9800;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+
+        .troubleshooting-step strong {
+            color: #FF9800;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .back-button {
+            display: inline-block;
+            background: #4D96FF;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 30px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(77, 150, 255, 0.4);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 24px;
+                border-radius: 16px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Support & Help</h1>
+            <p class="subtitle">We're here to help you get the most out of Tiny Doodle! 🎨</p>
+        </div>
+
+        <div class="contact-box">
+            <h2>📧 Contact Us</h2>
+            <div class="contact-method">
+                <strong>Email Support</strong>
+                <a href="mailto:support@tiny-doodle.app">support@tiny-doodle.app</a>
+            </div>
+            <div class="contact-method">
+                <strong>Response Time</strong>
+                <p style="margin: 0;">We aim to respond within 2 business days</p>
+            </div>
+            <div class="contact-method">
+                <strong>GitHub Issues</strong>
+                <a href="https://github.com/jiburney/tiny-doodle/issues" target="_blank">Report bugs or request features</a>
+            </div>
+        </div>
+
+        <h2>🚀 Getting Started</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <div class="feature-title">Choose Colors</div>
+                <p>Tap any color to start drawing</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🖌️</div>
+                <div class="feature-title">Brush Sizes</div>
+                <p>Select from 4 brush weights</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">↶</div>
+                <div class="feature-title">Undo/Redo</div>
+                <p>Fix mistakes with top-right buttons</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💾</div>
+                <div class="feature-title">Save</div>
+                <p>Save to gallery (bottom tray)</p>
+            </div>
+        </div>
+
+        <h2>❓ Frequently Asked Questions</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">Q: Is Tiny Doodle really free?</div>
+            <div class="faq-answer">
+                <strong>Yes!</strong> Tiny Doodle is completely free with no ads, no in-app purchases, and no hidden costs. We believe creative tools should be accessible to everyone.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Q: Is my child's data safe?</div>
+            <div class="faq-answer">
+                <strong>Absolutely!</strong> We collect NO personal information. All drawings are saved locally on your device. We don't track usage, collect emails, or share any data. See our <a href="/privacy.html" style="color: #4D96FF;">Privacy Policy</a> for details.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Q: Does Tiny Doodle work offline?</div>
+            <div class="faq-answer">
+                <strong>Yes!</strong> After the initial load, Tiny Doodle works completely offline. Perfect for long car rides, flights, or anywhere without internet.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Q: How do I install Tiny Doodle on my iPhone/iPad?</div>
+            <div class="faq-answer">
+                1. Open Tiny Doodle in Safari<br>
+                2. Tap the Share button (square with arrow)<br>
+                3. Scroll down and tap "Add to Home Screen"<br>
+                4. Tap "Add"<br>
+                The app icon will appear on your home screen like a regular app!
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Q: Can I share my drawings?</div>
+            <div class="faq-answer">
+                <strong>Yes!</strong> Tap the Share button (↗) in the bottom tray to save drawings to your photo library or share via Messages, Email, or social media.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Q: Where are my saved drawings?</div>
+            <div class="faq-answer">
+                Tap the Gallery button (📁) in the top-right corner to view all your saved drawings. Drawings are stored in your browser's local storage.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Q: Will there be an iOS app?</div>
+            <div class="faq-answer">
+                <strong>Yes!</strong> We're working on a native iOS app for iPhone and iPad. It will be available on the App Store in 2026. The web version will continue to be maintained.
+            </div>
+        </div>
+
+        <h2>🔧 Troubleshooting</h2>
+
+        <h3>App won't load or is stuck</h3>
+        <div class="troubleshooting-step">
+            <strong>Step 1:</strong> Refresh the page (swipe down or press F5)
+        </div>
+        <div class="troubleshooting-step">
+            <strong>Step 2:</strong> Clear your browser cache (Settings → Safari → Clear History and Website Data)
+        </div>
+        <div class="troubleshooting-step">
+            <strong>Step 3:</strong> Try a different browser (Safari is recommended for iOS)
+        </div>
+
+        <h3>Drawings won't save</h3>
+        <div class="troubleshooting-step">
+            <strong>Check storage:</strong> Make sure your device has available storage space
+        </div>
+        <div class="troubleshooting-step">
+            <strong>Browser settings:</strong> Ensure cookies/local storage is enabled in your browser settings
+        </div>
+        <div class="troubleshooting-step">
+            <strong>Private browsing:</strong> Exit private/incognito mode (data doesn't persist in these modes)
+        </div>
+
+        <h3>Touch/drawing not working</h3>
+        <div class="troubleshooting-step">
+            <strong>Browser compatibility:</strong> Use Safari on iOS, Chrome on Android, or any modern browser on desktop
+        </div>
+        <div class="troubleshooting-step">
+            <strong>Close other apps:</strong> Some apps may interfere with touch events
+        </div>
+        <div class="troubleshooting-step">
+            <strong>Restart device:</strong> Sometimes a simple restart fixes touch issues
+        </div>
+
+        <h3>Lost drawings after clearing cache</h3>
+        <div class="troubleshooting-step">
+            <strong>Unfortunately:</strong> Clearing browser cache/data permanently deletes locally stored drawings
+        </div>
+        <div class="troubleshooting-step">
+            <strong>Prevention:</strong> Use the Share button to save important drawings to your photo library before clearing cache
+        </div>
+
+        <h2>📱 System Requirements</h2>
+        <ul>
+            <li><strong>iOS/iPadOS:</strong> Safari 14+ (iOS 14 or later)</li>
+            <li><strong>Android:</strong> Chrome 90+</li>
+            <li><strong>Desktop:</strong> Chrome, Firefox, Safari, or Edge (latest versions)</li>
+            <li><strong>Internet:</strong> Required only for initial load, then works offline</li>
+            <li><strong>Storage:</strong> Approximately 5-10MB for the app, plus space for saved drawings</li>
+        </ul>
+
+        <h2>🎁 Feature Requests</h2>
+        <p>Have an idea for a new feature? We'd love to hear it!</p>
+        <ul>
+            <li>Email us at <a href="mailto:support@tiny-doodle.app" style="color: #4D96FF;">support@tiny-doodle.app</a></li>
+            <li>Open an issue on <a href="https://github.com/jiburney/tiny-doodle/issues" target="_blank" style="color: #4D96FF;">GitHub</a></li>
+        </ul>
+        <p><strong>Planned features:</strong> Stickers, shapes, more colors, eraser tool, Apple Pencil optimization (iOS app)</p>
+
+        <h2>🐛 Report a Bug</h2>
+        <p>Found a bug? Please help us fix it by providing:</p>
+        <ul>
+            <li>Device type (iPhone 15, iPad Pro, etc.)</li>
+            <li>Operating system version (iOS 17, Android 14, etc.)</li>
+            <li>Browser and version (Safari 17, Chrome 120, etc.)</li>
+            <li>Detailed description of the issue</li>
+            <li>Steps to reproduce the bug</li>
+        </ul>
+        <p>Send bug reports to <a href="mailto:support@tiny-doodle.app" style="color: #4D96FF;">support@tiny-doodle.app</a></p>
+
+        <h2>👨‍👩‍👧‍👦 For Parents</h2>
+        <p>Tiny Doodle is designed with child safety and privacy as top priorities:</p>
+        <ul>
+            <li><strong>No personal data collection</strong> - See our <a href="/privacy.html" style="color: #4D96FF;">Privacy Policy</a></li>
+            <li><strong>COPPA compliant</strong> - Safe for children under 13</li>
+            <li><strong>No ads or tracking</strong> - Completely ad-free experience</li>
+            <li><strong>Offline capable</strong> - No internet required after initial load</li>
+            <li><strong>Parental controls</strong> - Use iOS Guided Access to lock children into the app</li>
+        </ul>
+
+        <h2>📚 Additional Resources</h2>
+        <ul>
+            <li><a href="/privacy.html" style="color: #4D96FF;">Privacy Policy</a> - How we protect your data</li>
+            <li><a href="https://github.com/jiburney/tiny-doodle" target="_blank" style="color: #4D96FF;">GitHub Repository</a> - View source code</li>
+            <li><a href="/" style="color: #4D96FF;">Back to App</a> - Start drawing!</li>
+        </ul>
+
+        <div style="text-align: center; margin-top: 40px; padding-top: 30px; border-top: 3px solid #f0f0f0;">
+            <p style="color: #666; font-size: 14px; margin-bottom: 20px;">
+                Tiny Doodle is created with ❤️ by James Burney<br>
+                © 2026 Tiny Doodle - All Rights Reserved
+            </p>
+            <a href="/" class="back-button">← Back to Tiny Doodle</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Drawing } from '../App'
-import { trackDrawingShared, trackDrawingDeleted } from '../utils/analytics'
 import './Gallery.css'
 
 type GalleryProps = {
@@ -17,9 +16,6 @@ function Gallery({ drawings, onClose, onDelete }: GalleryProps) {
     if (confirmDelete) {
       onDelete(id)
       setSelectedDrawing(null)
-
-      // Track the delete event
-      trackDrawingDeleted()
     }
   }
 
@@ -40,9 +36,6 @@ function Gallery({ drawings, onClose, onDelete }: GalleryProps) {
           title: 'Tiny Doodle Drawing',
           text: 'Check out this drawing from Tiny Doodle!'
         })
-
-        // Track native share
-        trackDrawingShared('native_share')
       } else {
         // Fallback: download the file
         const url = URL.createObjectURL(blob)
@@ -53,9 +46,6 @@ function Gallery({ drawings, onClose, onDelete }: GalleryProps) {
         link.click()
         document.body.removeChild(link)
         URL.revokeObjectURL(url)
-
-        // Track download fallback
-        trackDrawingShared('download')
       }
     } catch (error) {
       // User cancelled share or other error

@@ -233,12 +233,16 @@ Once the concept is validated with friends' kids, consider building:
 
 ### COPPA Compliance
 - ✅ No account creation required
-- ✅ No data collection or analytics
+- ✅ No personal data collection
+- ✅ No tracking or analytics (web version is privacy-first)
 - ✅ No advertising
-- ✅ All data stored locally on device
+- ✅ All drawings stored locally on device
 - ✅ No internet connection required (after install)
-- ✅ No third-party services
+- ✅ No third-party tracking services
 - ✅ No social features (in current version)
+- ✅ Safe for children under 13
+
+**Note:** The web version uses privacy-respecting analytics (optional, can be disabled) that collect anonymous usage statistics only (no personal information, IP addresses, or user identification). The planned iOS native app will have zero tracking.
 
 ### Future Privacy Considerations
 When adding sharing features:
