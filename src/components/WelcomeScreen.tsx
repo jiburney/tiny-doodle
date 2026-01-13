@@ -23,6 +23,8 @@ function WelcomeScreen({ onClose }: WelcomeScreenProps) {
             src="/tiny-doodle-logo-full.png"
             alt="Tiny Doodle"
             className="welcome-logo"
+            width="858"
+            height="756"
           />
         </div>
 
@@ -110,6 +112,12 @@ function WelcomeScreen({ onClose }: WelcomeScreenProps) {
           <button className="welcome-cta-button" onClick={handleGetStarted}>
             Get Started!
           </button>
+
+          <div className="welcome-footer">
+            <a href="/privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+            <span className="footer-separator">•</span>
+            <a href="/support.html" target="_blank" rel="noopener noreferrer">Support & Help</a>
+          </div>
         </div>
       </div>
     </div>

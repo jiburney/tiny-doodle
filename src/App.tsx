@@ -75,6 +75,8 @@ function App() {
             src="/tiny-doodle-logo-full.png"
             alt="Tiny Doodle"
             className="app-logo"
+            width="858"
+            height="756"
           />
           <div className="header-buttons">
             <button

@@ -119,6 +119,8 @@ function Gallery({ drawings, onClose, onDelete }: GalleryProps) {
           src="/tiny-doodle-logo-full.png"
           alt="Tiny Doodle"
           className="gallery-logo"
+          width="858"
+          height="756"
         />
         <div style={{ width: '100px' }} /> {/* Spacer for centering */}
       </header>

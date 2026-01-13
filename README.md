@@ -131,6 +131,19 @@ To prevent children from exiting the app and accessing other parts of the device
 - **vite-plugin-pwa** - Progressive Web App support
 - **HTML5 Canvas** - Drawing functionality
 
+### Hosting & Deployment
+
+**Platform**: Netlify
+
+**Why Netlify over GitHub Pages?**
+- **PWA Support**: Netlify allows custom cache headers for service workers (`Cache-Control: public, max-age=0, must-revalidate`), critical for PWA functionality
+- **Flexible Redirects**: Support for clean URLs (`/privacy` → `/privacy.html`) and SPA routing fallbacks
+- **Automatic Builds**: Runs `npm run build` on deploy without requiring committed build artifacts or GitHub Actions
+- **Better Performance**: Edge CDN with automatic optimization and compression
+- **Custom Headers**: Full control over HTTP headers for optimal PWA caching behavior
+
+**Sustainability**: Netlify runs on AWS infrastructure, which achieved 100% renewable energy usage as of 2025. The platform emphasizes efficiency through serverless architecture, auto-scaling, and the Jamstack approach (build once, serve many times). While not formally certified by the Green Web Foundation, Netlify's architectural efficiency reduces computational energy consumption compared to traditional hosting.
+
 ### Browser Compatibility
 - ✅ iOS Safari 14+
 - ✅ Chrome 90+
@@ -148,6 +161,7 @@ To prevent children from exiting the app and accessing other parts of the device
 - Canvas size matches display size for best performance
 - Efficient undo/redo with limited history (10 steps)
 - Lazy loading of gallery thumbnails
+- Optimized PNG assets (logos reduced by ~67% through compression)
 
 ## Future Enhancements
 
