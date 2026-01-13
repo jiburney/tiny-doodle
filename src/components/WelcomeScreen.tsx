@@ -18,6 +18,13 @@ function WelcomeScreen({ onClose }: WelcomeScreenProps) {
   return (
     <div className="welcome-overlay">
       <div className="welcome-dialog">
+        <button
+          className="welcome-close-button"
+          onClick={onClose}
+          aria-label="Close welcome screen"
+        >
+          ✕
+        </button>
         <div className="welcome-header">
           <img
             src="/tiny-doodle-logo-full.png"
