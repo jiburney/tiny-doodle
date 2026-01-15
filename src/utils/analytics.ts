@@ -2,8 +2,9 @@ import Countly from 'countly-sdk-web'
 
 // COPPA-compliant analytics configuration
 const COUNTLY_CONFIG = {
-  app_key: '91b20217b285533576cc3f23e2c9de8f',
+  app_key: 'b8ba5d49a89aa071638d5ca20bf409de694ac9c5',
   url: 'https://tiny-06ab784e73cdc.flex.countly.com/',
+  app_version: '1.0.0',
   debug: false,
 
   // COPPA compliance settings
@@ -21,6 +22,7 @@ const COUNTLY_CONFIG = {
   ignore_bots: true,
   force_post: true,
   remote_config: false,
+  use_explicit_rc_api: true, // Suppress remote config warning
 
   // Disable location tracking for COPPA compliance
   disable_offline_mode: false,
@@ -35,7 +37,6 @@ export const initAnalytics = () => {
   try {
     Countly.init(COUNTLY_CONFIG)
     initialized = true
-    console.log('Analytics initialized (COPPA compliant)')
   } catch (error) {
     console.error('Failed to initialize analytics:', error)
   }
