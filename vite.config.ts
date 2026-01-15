@@ -2,6 +2,21 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import fs from 'fs'
+import path from 'path'
+
+// Only enable HTTPS in development when certificate files exist
+const keyPath = path.resolve(process.cwd(), './localhost-key.pem')
+const certPath = path.resolve(process.cwd(), './localhost.pem')
+
+let httpsConfig: false | { key: Buffer; cert: Buffer } = false
+
+// Only enable HTTPS if not in production and the files exist
+if (process.env.NODE_ENV !== 'production' && fs.existsSync(keyPath) && fs.existsSync(certPath)) {
+  httpsConfig = {
+    key: fs.readFileSync(keyPath),
+    cert: fs.readFileSync(certPath),
+  }
+}
 
 export default defineConfig({
   plugins: [
@@ -68,10 +83,7 @@ export default defineConfig({
     port: 3000,
     open: true,
     host: true,
-    https: {
-      key: fs.readFileSync('./localhost-key.pem'),
-      cert: fs.readFileSync('./localhost.pem')
-    },
+    https: httpsConfig,
     allowedHosts: ['fanged-emogene-gullably.ngrok-free.dev']
   }
-})  // <-- This closing brace was missing
+})
