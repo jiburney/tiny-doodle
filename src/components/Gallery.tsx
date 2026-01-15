@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Drawing } from '../App'
+import { trackGalleryAction } from '../utils/analytics'
 import './Gallery.css'
 
 type GalleryProps = {
@@ -16,6 +17,7 @@ function Gallery({ drawings, onClose, onDelete }: GalleryProps) {
     if (confirmDelete) {
       onDelete(id)
       setSelectedDrawing(null)
+      trackGalleryAction('delete_drawing')
     }
   }
 
@@ -36,6 +38,7 @@ function Gallery({ drawings, onClose, onDelete }: GalleryProps) {
           title: 'Tiny Doodle Drawing',
           text: 'Check out this drawing from Tiny Doodle!'
         })
+        trackGalleryAction('share_drawing')
       } else {
         // Fallback: download the file
         const url = URL.createObjectURL(blob)
@@ -52,6 +55,7 @@ function Gallery({ drawings, onClose, onDelete }: GalleryProps) {
       if (error instanceof Error && error.name !== 'AbortError') {
         console.error('Error sharing:', error)
         alert('Could not share the drawing. Please try again.')
+        trackGalleryAction('share_failed')
       }
     }
   }
@@ -137,7 +141,10 @@ function Gallery({ drawings, onClose, onDelete }: GalleryProps) {
               <div
                 key={drawing.id}
                 className="gallery-item"
-                onClick={() => setSelectedDrawing(drawing)}
+                onClick={() => {
+                  setSelectedDrawing(drawing)
+                  trackGalleryAction('view_drawing')
+                }}
               >
                 <img
                   src={drawing.dataUrl}

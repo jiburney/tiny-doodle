@@ -248,15 +248,29 @@ Once the concept is validated with friends' kids, consider building:
 ### COPPA Compliance
 - ✅ No account creation required
 - ✅ No personal data collection
-- ✅ No tracking or analytics (web version is privacy-first)
+- ✅ Anonymous usage analytics only (COPPA compliant)
 - ✅ No advertising
 - ✅ All drawings stored locally on device
 - ✅ No internet connection required (after install)
-- ✅ No third-party tracking services
+- ✅ No behavioral tracking or profiling
 - ✅ No social features (in current version)
 - ✅ Safe for children under 13
 
-**Note:** The web version uses privacy-respecting analytics (optional, can be disabled) that collect anonymous usage statistics only (no personal information, IP addresses, or user identification). The planned iOS native app will have zero tracking.
+### Analytics
+Tiny Doodle uses **Countly** (self-hosted) for anonymous, COPPA-compliant usage analytics:
+- **No Personal Data:** No names, emails, IP addresses, or identifiable information
+- **Anonymous Only:** Usage patterns, feature interactions, technical data (browser type, screen size)
+- **COPPA Compliant:** Fully compliant with children's privacy regulations
+- **Self-Hosted:** Data stored on our own servers, not shared with third parties
+- **Drawing Content:** We never see what you draw
+
+The analytics help us understand:
+- Which features are most used
+- Technical issues (crashes, errors)
+- Device/browser compatibility
+- User engagement patterns
+
+**Note:** The planned iOS native app will continue using the same privacy-first analytics approach.
 
 ### Future Privacy Considerations
 When adding sharing features:

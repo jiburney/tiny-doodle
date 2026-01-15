@@ -4,6 +4,7 @@ import ColorPicker from './components/ColorPicker'
 import BrushSizePicker from './components/BrushSizePicker'
 import Gallery from './components/Gallery'
 import WelcomeScreen from './components/WelcomeScreen'
+import { initAnalytics, trackPageView, trackGalleryAction, trackWelcomeScreen, trackColorSelection, trackBrushSize } from './utils/analytics'
 import './App.css'
 
 export type Drawing = {
@@ -20,8 +21,12 @@ function App() {
   const [drawings, setDrawings] = useState<Drawing[]>([])
   const [currentCanvas, setCurrentCanvas] = useState<string | null>(null)
 
-  // Load drawings from localStorage on mount
+  // Initialize analytics and load data on mount
   useEffect(() => {
+    // Initialize Countly analytics (COPPA compliant)
+    initAnalytics()
+    trackPageView('Home')
+
     const saved = localStorage.getItem('tiny-doodle-drawings')
     if (saved) {
       try {
@@ -35,6 +40,7 @@ function App() {
     const hideWelcome = localStorage.getItem('tiny-doodle-hide-welcome')
     if (!hideWelcome) {
       setShowWelcome(true)
+      trackWelcomeScreen('shown')
     }
   }, [])
 
@@ -61,7 +67,11 @@ function App() {
     return (
       <Gallery
         drawings={drawings}
-        onClose={() => setShowGallery(false)}
+        onClose={() => {
+          setShowGallery(false)
+          trackGalleryAction('close')
+          trackPageView('Home')
+        }}
         onDelete={handleDeleteDrawing}
       />
     )
@@ -88,7 +98,11 @@ function App() {
             </button>
             <button
               className="gallery-button"
-              onClick={() => setShowGallery(true)}
+              onClick={() => {
+                setShowGallery(true)
+                trackGalleryAction('open')
+                trackPageView('Gallery')
+              }}
               aria-label="Open gallery"
             >
               📁 ({drawings.length})
@@ -99,11 +113,17 @@ function App() {
         <div className="top-controls">
           <ColorPicker
             currentColor={currentColor}
-            onColorChange={setCurrentColor}
+            onColorChange={(color) => {
+              setCurrentColor(color)
+              trackColorSelection(color)
+            }}
           />
           <BrushSizePicker
             currentSize={brushSize}
-            onSizeChange={setBrushSize}
+            onSizeChange={(size) => {
+              setBrushSize(size)
+              trackBrushSize(size)
+            }}
           />
         </div>
 

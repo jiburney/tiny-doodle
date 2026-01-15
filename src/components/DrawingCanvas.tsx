@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from 'react'
+import { trackDrawingAction } from '../utils/analytics'
 import './DrawingCanvas.css'
 
 type Point = {
@@ -189,6 +190,7 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
     context.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height)
     saveToHistory(context)
     onCanvasChange(canvasRef.current.toDataURL('image/png'))
+    trackDrawingAction('clear')
   }
 
   const handleUndo = () => {
@@ -197,6 +199,7 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
       setHistoryStep(newStep)
       context.putImageData(history[newStep], 0, 0)
       onCanvasChange(canvasRef.current.toDataURL('image/png'))
+      trackDrawingAction('undo')
     }
   }
 
@@ -206,6 +209,7 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
       setHistoryStep(newStep)
       context.putImageData(history[newStep], 0, 0)
       onCanvasChange(canvasRef.current.toDataURL('image/png'))
+      trackDrawingAction('redo')
     }
   }
 
@@ -215,6 +219,7 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
 
     const dataUrl = canvas.toDataURL('image/png')
     onSave(dataUrl)
+    trackDrawingAction('save')
 
     // Show success feedback
     alert('Drawing saved to gallery! 🎉')

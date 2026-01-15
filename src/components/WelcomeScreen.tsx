@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { trackWelcomeScreen } from '../utils/analytics'
 import './WelcomeScreen.css'
 
 type WelcomeScreenProps = {
@@ -11,7 +12,9 @@ function WelcomeScreen({ onClose }: WelcomeScreenProps) {
   const handleGetStarted = () => {
     if (dontShowAgain) {
       localStorage.setItem('tiny-doodle-hide-welcome', 'true')
+      trackWelcomeScreen('dont_show_again')
     }
+    trackWelcomeScreen('completed')
     onClose()
   }
 
@@ -20,7 +23,10 @@ function WelcomeScreen({ onClose }: WelcomeScreenProps) {
       <div className="welcome-dialog">
         <button
           className="welcome-close-button"
-          onClick={onClose}
+          onClick={() => {
+            trackWelcomeScreen('dismissed')
+            onClose()
+          }}
           aria-label="Close welcome screen"
         >
           ✕
