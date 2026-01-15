@@ -2,8 +2,8 @@ import Countly from 'countly-sdk-web'
 
 // COPPA-compliant analytics configuration
 const COUNTLY_CONFIG = {
-  app_key: '1a8ad26ac874ed81f83e12c2f4838f3ef36a03d4',
-  url: 'https://tiny-b32101b8e135c.flex.countly.com/',
+  app_key: '91b20217b285533576cc3f23e2c9de8f',
+  url: 'https://tiny-06ab784e73cdc.flex.countly.com/',
   debug: false,
 
   // COPPA compliance settings

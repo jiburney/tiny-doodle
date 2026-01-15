@@ -8,6 +8,20 @@
   publish = "dist"
 
 # Serve static HTML pages directly (privacy policy, support)
+# Clean URLs without .html extension
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/support"
+  to = "/support.html"
+  status = 200
+  force = true
+
+# Also allow .html extension to work
 [[redirects]]
   from = "/privacy.html"
   to = "/privacy.html"

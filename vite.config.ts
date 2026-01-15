@@ -1,13 +1,14 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
+import fs from 'fs'
 
 export default defineConfig({
   plugins: [
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['tiny-doodle-logo-icon.png'],
+      includeAssets: ['tiny-doodle-logo-icon.png', 'privacy.html', 'support.html'],
       manifest: {
         name: 'Tiny Doodle - Draw & Create',
         short_name: 'Tiny Doodle',
@@ -67,6 +68,10 @@ export default defineConfig({
     port: 3000,
     open: true,
     host: true,
+    https: {
+      key: fs.readFileSync('./localhost-key.pem'),
+      cert: fs.readFileSync('./localhost.pem')
+    },
     allowedHosts: ['fanged-emogene-gullably.ngrok-free.dev']
   }
-})
+})  // <-- This closing brace was missing
