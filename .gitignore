@@ -36,3 +36,6 @@ pnpm-debug.log*
 
 # PWA
 dev-dist/
+
+# Local HTTPS dev certificates (PWA features need HTTPS on localhost)
+*.pem
