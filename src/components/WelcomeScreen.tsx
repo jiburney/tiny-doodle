@@ -6,8 +6,24 @@ type WelcomeScreenProps = {
   onClose: () => void
 }
 
+// Safari cannot hide its own chrome, so the app only gets the full screen once
+// it is installed. iOS has no beforeinstallprompt event to hook into, so all we
+// can do is point at the button. Pointless once they are already installed.
+const shouldShowInstallHint = () => {
+  const isIOS =
+    /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+    // iPadOS 13+ reports a Mac user agent. Touch points tell it from a real Mac.
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+  const isStandalone =
+    (navigator as Navigator & { standalone?: boolean }).standalone === true ||
+    window.matchMedia('(display-mode: standalone)').matches
+
+  return isIOS && !isStandalone
+}
+
 function WelcomeScreen({ onClose }: WelcomeScreenProps) {
   const [dontShowAgain, setDontShowAgain] = useState(false)
+  const [showInstallHint] = useState(shouldShowInstallHint)
 
   const handleGetStarted = () => {
     if (dontShowAgain) {
@@ -110,6 +126,12 @@ function WelcomeScreen({ onClose }: WelcomeScreenProps) {
               </div>
             </div>
           </div>
+
+          {showInstallHint && (
+            <p className="welcome-install-hint">
+              For a full screen, tap Share then Add to Home Screen.
+            </p>
+          )}
 
           <div className="welcome-checkbox">
             <label>
