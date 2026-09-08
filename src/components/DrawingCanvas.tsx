@@ -38,25 +38,44 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
     // Only the very first sizing has nothing on the canvas to preserve, so it is
     // the only one that falls back to the initialCanvas prop.
     let isFirstResize = true
+    // CSS size the backing store was last built for, which is also the size the
+    // content on the canvas is drawn at.
+    let appliedWidth = 0
+    let appliedHeight = 0
 
     // Set canvas size to match display size
     const resizeCanvas = () => {
       const rect = canvas.getBoundingClientRect()
+
+      // Nothing to size against yet; wait for the observer to report a real box.
+      if (rect.width === 0 || rect.height === 0) return
+
+      // Skip our own writes and sub-pixel layout noise, which would otherwise
+      // wipe and redraw the canvas for no visible gain.
+      if (Math.abs(rect.width - appliedWidth) < 1 && Math.abs(rect.height - appliedHeight) < 1) {
+        return
+      }
+
       const dpr = window.devicePixelRatio || 1
 
-      // Grab what is on screen now: assigning width/height below wipes the canvas.
+      // Grab what is on screen now, along with the box it was drawn in:
+      // assigning width/height below wipes the canvas.
       const previous = isFirstResize ? initialCanvas : canvas.toDataURL('image/png')
+      const previousWidth = appliedWidth
+      const previousHeight = appliedHeight
       isFirstResize = false
 
-      // Backing store in device pixels, CSS box in CSS pixels, so strokes stay
-      // sharp on retina displays.
+      // Only the backing store is set here, in device pixels, so strokes stay
+      // sharp on retina displays. The CSS box is left to the stylesheet: an
+      // inline width would pin this flex item and stop it stretching back to
+      // the full width after a rotation.
       canvas.width = rect.width * dpr
       canvas.height = rect.height * dpr
-      canvas.style.width = `${rect.width}px`
-      canvas.style.height = `${rect.height}px`
       // Assigning width/height resets the transform, so this has to run after
       // every resize. All drawing coordinates stay in CSS pixels.
       ctx.scale(dpr, dpr)
+      appliedWidth = rect.width
+      appliedHeight = rect.height
 
       // Fill with white background
       ctx.fillStyle = 'white'
@@ -66,7 +85,21 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
       if (previous) {
         const img = new Image()
         img.onload = () => {
-          ctx.drawImage(img, 0, 0, rect.width, rect.height)
+          // Fit the old content into the new box without distorting it. On the
+          // first run there is no previous box, so the image's own pixel size
+          // stands in; it has the same aspect ratio either way.
+          const sourceWidth = previousWidth || img.width
+          const sourceHeight = previousHeight || img.height
+          const scale = Math.min(rect.width / sourceWidth, rect.height / sourceHeight)
+          const drawWidth = sourceWidth * scale
+          const drawHeight = sourceHeight * scale
+          ctx.drawImage(
+            img,
+            (rect.width - drawWidth) / 2,
+            (rect.height - drawHeight) / 2,
+            drawWidth,
+            drawHeight
+          )
           // Drop history: ImageData snapshots are sized to the backing store, so
           // mixing pre- and post-resize entries makes undo paint an old-size
           // block at the origin. Losing undo on rotation is the tradeoff.
@@ -83,11 +116,14 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
       }
     }
 
-    resizeCanvas()
     setContext(ctx)
 
-    window.addEventListener('resize', resizeCanvas)
-    return () => window.removeEventListener('resize', resizeCanvas)
+    // A ResizeObserver reports the settled post-layout box, so it sees the
+    // heights the landscape media queries leave for the canvas. A window
+    // resize listener measures too early on iOS rotation.
+    const observer = new ResizeObserver(resizeCanvas)
+    observer.observe(canvas)
+    return () => observer.disconnect()
   }, [])
 
   const saveToHistory = (ctx: CanvasRenderingContext2D) => {
