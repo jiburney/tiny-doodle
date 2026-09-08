@@ -2,6 +2,11 @@ import { useRef, useEffect, useState } from 'react'
 import { trackDrawingAction } from '../utils/analytics'
 import './DrawingCanvas.css'
 
+// The canvas is a fixed logical square. CSS scales the element to fit
+// whatever space is available, so the drawing's coordinate space never
+// changes and rotation is not something this component has to handle.
+const CANVAS_SIZE = 1024
+
 type Point = {
   x: number
   y: number
@@ -31,35 +36,28 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
     const ctx = canvas.getContext('2d', { willReadFrequently: true })
     if (!ctx) return
 
-    // Set canvas size to match display size
-    const resizeCanvas = () => {
-      const rect = canvas.getBoundingClientRect()
-      canvas.width = rect.width
-      canvas.height = rect.height
+    // Sized once, never again.
+    canvas.width = CANVAS_SIZE
+    canvas.height = CANVAS_SIZE
 
-      // Fill with white background
-      ctx.fillStyle = 'white'
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+    // Fill with white background
+    ctx.fillStyle = 'white'
+    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE)
 
-      // Restore previous canvas if available
-      if (initialCanvas) {
-        const img = new Image()
-        img.onload = () => {
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
-          saveToHistory(ctx)
-        }
-        img.src = initialCanvas
-      } else {
-        // Save initial state
+    // Restore previous canvas if available
+    if (initialCanvas) {
+      const img = new Image()
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0, CANVAS_SIZE, CANVAS_SIZE)
         saveToHistory(ctx)
       }
+      img.src = initialCanvas
+    } else {
+      // Save initial state
+      saveToHistory(ctx)
     }
 
-    resizeCanvas()
     setContext(ctx)
-
-    window.addEventListener('resize', resizeCanvas)
-    return () => window.removeEventListener('resize', resizeCanvas)
   }, [])
 
   const saveToHistory = (ctx: CanvasRenderingContext2D) => {
@@ -86,17 +84,21 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
     if (!canvas) return { x: 0, y: 0 }
 
     const rect = canvas.getBoundingClientRect()
+    // The element is displayed at whatever size fits, which is not the
+    // backing store size, so convert CSS pixels to canvas units.
+    const scaleX = CANVAS_SIZE / rect.width
+    const scaleY = CANVAS_SIZE / rect.height
 
     if ('touches' in e) {
       const touch = e.touches[0]
       return {
-        x: touch.clientX - rect.left,
-        y: touch.clientY - rect.top
+        x: (touch.clientX - rect.left) * scaleX,
+        y: (touch.clientY - rect.top) * scaleY
       }
     } else {
       return {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top
+        x: (e.clientX - rect.left) * scaleX,
+        y: (e.clientY - rect.top) * scaleY
       }
     }
   }

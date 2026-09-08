@@ -15,7 +15,7 @@ export type Drawing = {
 
 function App() {
   const [currentColor, setCurrentColor] = useState('#FF6B6B')
-  const [brushSize, setBrushSize] = useState(2)
+  const [brushSize, setBrushSize] = useState(6)
   const [showGallery, setShowGallery] = useState(false)
   const [showWelcome, setShowWelcome] = useState(false)
   const [drawings, setDrawings] = useState<Drawing[]>([])

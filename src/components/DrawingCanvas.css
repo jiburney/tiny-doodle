@@ -2,14 +2,22 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 12px;
   overflow: hidden;
   min-height: 0;
   position: relative;
 }
 
+/* A square that letterboxes into whatever space the container has. */
 .drawing-canvas {
-  flex: 1;
+  aspect-ratio: 1;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  margin: auto;
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
