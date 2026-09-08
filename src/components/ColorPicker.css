@@ -1,8 +1,6 @@
 .color-picker {
   width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
+  overflow: visible;
 }
 
 .color-picker-label {
@@ -11,11 +9,14 @@
   color: #333;
 }
 
+/* Two rows of five, so all ten colours are reachable without scrolling. */
 .color-grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 45px);
   gap: 10px;
   padding: 4px;
-  min-width: min-content;
+  justify-content: center;
+  justify-items: center;
 }
 
 .color-swatch {
