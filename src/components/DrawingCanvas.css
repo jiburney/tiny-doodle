@@ -216,6 +216,8 @@
 @media (orientation: landscape) {
   .drawing-canvas-container {
     padding: 6px;
+    /* Clear the notch/home indicator when the phone is rotated the other way. */
+    padding-right: max(6px, env(safe-area-inset-right));
   }
 
   .floating-undo-redo {

@@ -96,18 +96,23 @@
     font-size: 14px;
   }
 
+  /* 2x2 block at the top of the rail: two 45px buttons plus a 4px gap fit
+     inside the rail's 96px of inner width. */
   .brush-size-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 4px;
   }
 
   .brush-size-button {
-    min-width: 60px;
+    min-width: 45px;
     min-height: 35px;
     padding: 4px 8px;
   }
 
+  /* 45px button - 16px padding - 4px border leaves 25px of content box. */
   .brush-preview-line {
-    width: 35px;
+    width: 24px;
   }
 
   .brush-size-name {

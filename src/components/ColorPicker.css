@@ -1,8 +1,6 @@
 .color-picker {
   width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
+  overflow: visible;
 }
 
 .color-picker-label {
@@ -11,11 +9,15 @@
   color: #333;
 }
 
+/* Two lines of swatches in both orientations, so all ten are always
+   reachable without scrolling. */
 .color-grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 50px);
   gap: 10px;
   padding: 4px;
-  min-width: min-content;
+  justify-content: center;
+  justify-items: center;
 }
 
 .color-swatch {
@@ -61,6 +63,7 @@
 
 @media (max-width: 600px) {
   .color-grid {
+    grid-template-columns: repeat(5, 45px);
     gap: 8px;
   }
 
@@ -84,8 +87,12 @@
     font-size: 14px;
   }
 
+  /* Five rows of two inside the rail. The 45px tracks leave room for the
+     scale(1.1) a selected 40px swatch gets. */
   .color-grid {
+    grid-template-columns: repeat(2, 45px);
     gap: 6px;
+    padding: 0;
   }
 
   .color-swatch {

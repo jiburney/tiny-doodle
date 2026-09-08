@@ -70,6 +70,15 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Holds the controls and the canvas: stacked in portrait, side by side in
+   landscape. The header stays above both, full width. */
+.work-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .top-controls {
   display: flex;
   flex-direction: column;
@@ -217,10 +226,19 @@
     font-size: 18px;
   }
 
-  .top-controls {
+  .work-area {
     flex-direction: row;
-    justify-content: space-around;
+  }
+
+  /* The controls become a fixed left rail: 2 swatches at 45px + an 8px gap
+     + 8px of padding either side. */
+  .top-controls {
+    width: 114px;
+    flex-shrink: 0;
+    align-items: center;
+    overflow-y: auto;
     padding: 6px 12px;
+    padding-left: max(6px, env(safe-area-inset-left));
     gap: 12px;
   }
 }
