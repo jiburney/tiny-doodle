@@ -110,32 +110,30 @@ function App() {
           </div>
         </header>
 
-        <div className="work-area">
-          <div className="top-controls">
-            <ColorPicker
-              currentColor={currentColor}
-              onColorChange={(color) => {
-                setCurrentColor(color)
-                trackColorSelection(color)
-              }}
-            />
-            <BrushSizePicker
-              currentSize={brushSize}
-              onSizeChange={(size) => {
-                setBrushSize(size)
-                trackBrushSize(size)
-              }}
-            />
-          </div>
-
-          <DrawingCanvas
-            color={currentColor}
-            brushSize={brushSize}
-            onSave={handleSaveDrawing}
-            initialCanvas={currentCanvas}
-            onCanvasChange={setCurrentCanvas}
+        <div className="top-controls">
+          <ColorPicker
+            currentColor={currentColor}
+            onColorChange={(color) => {
+              setCurrentColor(color)
+              trackColorSelection(color)
+            }}
+          />
+          <BrushSizePicker
+            currentSize={brushSize}
+            onSizeChange={(size) => {
+              setBrushSize(size)
+              trackBrushSize(size)
+            }}
           />
         </div>
+
+        <DrawingCanvas
+          color={currentColor}
+          brushSize={brushSize}
+          onSave={handleSaveDrawing}
+          initialCanvas={currentCanvas}
+          onCanvasChange={setCurrentCanvas}
+        />
       </div>
 
       {showWelcome && <WelcomeScreen onClose={() => setShowWelcome(false)} />}

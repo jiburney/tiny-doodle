@@ -21,10 +21,6 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null)
   const [history, setHistory] = useState<ImageData[]>([])
   const [historyStep, setHistoryStep] = useState(-1)
-  // Mirrors of the history state so callbacks captured in the setup effect's
-  // closure (which runs once) always read the live values.
-  const historyRef = useRef<ImageData[]>([])
-  const historyStepRef = useRef(-1)
   const [showTray, setShowTray] = useState(true)
   const trayTimeoutRef = useRef<number | null>(null)
 
@@ -35,95 +31,35 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
     const ctx = canvas.getContext('2d', { willReadFrequently: true })
     if (!ctx) return
 
-    // Only the very first sizing has nothing on the canvas to preserve, so it is
-    // the only one that falls back to the initialCanvas prop.
-    let isFirstResize = true
-    // CSS size the backing store was last built for, which is also the size the
-    // content on the canvas is drawn at.
-    let appliedWidth = 0
-    let appliedHeight = 0
-
     // Set canvas size to match display size
     const resizeCanvas = () => {
       const rect = canvas.getBoundingClientRect()
-
-      // Nothing to size against yet; wait for the observer to report a real box.
-      if (rect.width === 0 || rect.height === 0) return
-
-      // Skip our own writes and sub-pixel layout noise, which would otherwise
-      // wipe and redraw the canvas for no visible gain.
-      if (Math.abs(rect.width - appliedWidth) < 1 && Math.abs(rect.height - appliedHeight) < 1) {
-        return
-      }
-
-      const dpr = window.devicePixelRatio || 1
-
-      // Grab what is on screen now, along with the box it was drawn in:
-      // assigning width/height below wipes the canvas.
-      const previous = isFirstResize ? initialCanvas : canvas.toDataURL('image/png')
-      const previousWidth = appliedWidth
-      const previousHeight = appliedHeight
-      isFirstResize = false
-
-      // Only the backing store is set here, in device pixels, so strokes stay
-      // sharp on retina displays. The CSS box is left to the stylesheet: an
-      // inline width would pin this flex item and stop it stretching back to
-      // the full width after a rotation.
-      canvas.width = rect.width * dpr
-      canvas.height = rect.height * dpr
-      // Assigning width/height resets the transform, so this has to run after
-      // every resize. All drawing coordinates stay in CSS pixels.
-      ctx.scale(dpr, dpr)
-      appliedWidth = rect.width
-      appliedHeight = rect.height
+      canvas.width = rect.width
+      canvas.height = rect.height
 
       // Fill with white background
       ctx.fillStyle = 'white'
-      ctx.fillRect(0, 0, rect.width, rect.height)
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
 
       // Restore previous canvas if available
-      if (previous) {
+      if (initialCanvas) {
         const img = new Image()
         img.onload = () => {
-          // Fit the old content into the new box without distorting it. On the
-          // first run there is no previous box, so the image's own pixel size
-          // stands in; it has the same aspect ratio either way.
-          const sourceWidth = previousWidth || img.width
-          const sourceHeight = previousHeight || img.height
-          const scale = Math.min(rect.width / sourceWidth, rect.height / sourceHeight)
-          const drawWidth = sourceWidth * scale
-          const drawHeight = sourceHeight * scale
-          ctx.drawImage(
-            img,
-            (rect.width - drawWidth) / 2,
-            (rect.height - drawHeight) / 2,
-            drawWidth,
-            drawHeight
-          )
-          // Drop history: ImageData snapshots are sized to the backing store, so
-          // mixing pre- and post-resize entries makes undo paint an old-size
-          // block at the origin. Losing undo on rotation is the tradeoff.
-          historyRef.current = []
-          historyStepRef.current = -1
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
           saveToHistory(ctx)
         }
-        img.src = previous
+        img.src = initialCanvas
       } else {
         // Save initial state
-        historyRef.current = []
-        historyStepRef.current = -1
         saveToHistory(ctx)
       }
     }
 
+    resizeCanvas()
     setContext(ctx)
 
-    // A ResizeObserver reports the settled post-layout box, so it sees the
-    // heights the landscape media queries leave for the canvas. A window
-    // resize listener measures too early on iOS rotation.
-    const observer = new ResizeObserver(resizeCanvas)
-    observer.observe(canvas)
-    return () => observer.disconnect()
+    window.addEventListener('resize', resizeCanvas)
+    return () => window.removeEventListener('resize', resizeCanvas)
   }, [])
 
   const saveToHistory = (ctx: CanvasRenderingContext2D) => {
@@ -131,18 +67,18 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
     if (!canvas) return
 
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-    const newHistory = historyRef.current.slice(0, historyStepRef.current + 1)
+    const newHistory = history.slice(0, historyStep + 1)
     newHistory.push(imageData)
 
     // Limit history to 10 items to save memory
     if (newHistory.length > 10) {
       newHistory.shift()
+      setHistory(newHistory)
+      setHistoryStep(newHistory.length - 1)
+    } else {
+      setHistory(newHistory)
+      setHistoryStep(newHistory.length - 1)
     }
-
-    historyRef.current = newHistory
-    historyStepRef.current = newHistory.length - 1
-    setHistory(newHistory)
-    setHistoryStep(newHistory.length - 1)
   }
 
   const getPoint = (e: React.TouchEvent | React.MouseEvent): Point => {
@@ -260,7 +196,6 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
   const handleUndo = () => {
     if (historyStep > 0 && context && canvasRef.current) {
       const newStep = historyStep - 1
-      historyStepRef.current = newStep
       setHistoryStep(newStep)
       context.putImageData(history[newStep], 0, 0)
       onCanvasChange(canvasRef.current.toDataURL('image/png'))
@@ -271,7 +206,6 @@ function DrawingCanvas({ color, brushSize, onSave, initialCanvas, onCanvasChange
   const handleRedo = () => {
     if (historyStep < history.length - 1 && context && canvasRef.current) {
       const newStep = historyStep + 1
-      historyStepRef.current = newStep
       setHistoryStep(newStep)
       context.putImageData(history[newStep], 0, 0)
       onCanvasChange(canvasRef.current.toDataURL('image/png'))
